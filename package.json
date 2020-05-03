@@ -1,7 +1,7 @@
 {
   "name": "pcr",
   "version": "0.1.0",
-  "private": true,
+  "repository": "https://github.com/CJowo/pcr-guild-vue",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -51,8 +51,8 @@
       "ecmaVersion": 2020
     },
     "rules": {
-      "vue/no-unused-vars": "warn",
-      "prefer-const": "warn",
+      "vue/no-unused-vars": "off",
+      "prefer-const": "off",
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/no-var-requires": "off"
     }

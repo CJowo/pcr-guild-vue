@@ -16,7 +16,7 @@
       <el-form-item label="Level" prop="level"
         :rules="[
           { required: true, message: $t('error.required') },
-          { max: 999, min: 1, type: 'number', message: $t('error.range') + ' 1~999' }
+          { max: maxLevel, min: 1, type: 'number', message: $t('error.range') + ' 1~' + maxLevel }
         ]"
       >
         <el-input v-model.number="info.level" @change="changeInfo()" />
@@ -52,7 +52,7 @@
           <el-form-item label="RANK" prop="rank"
             :rules="[
               { required: true, message: $t('error.required') },
-              { type: 'number', min: 1, max: 8, message: $t('error.range') + ' 1~8' },
+              { type: 'number', min: 1, max: maxRank, message: $t('error.range') + ' 1~' + maxRank },
             ]"
           >
             <el-input v-model.number="character.rank" />
@@ -74,6 +74,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import CharacterComponent, { Character } from '@/components/Character.vue'
 import Select from '@/components/Select.vue'
+import { maxLevel, maxRank } from '@/utils/data'
 
 @Component({
   components: {
@@ -82,6 +83,8 @@ import Select from '@/components/Select.vue'
   }
 })
 export default class Box extends Vue {
+  maxLevel = maxLevel
+  maxRank = maxRank
   info: { id: string; level: number } = { id: '', level: 0 }
   box: Character[] = []
   selected: null | string = null
@@ -125,9 +128,9 @@ export default class Box extends Vue {
         .then(() => {
           this.box.push({
             id: newValue,
-            rank: 1,
-            star: 1,
-            max: false
+            rank: 8,
+            star: 3,
+            max: true
           })
         })
         .finally(() => { this.loading = false })

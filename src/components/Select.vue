@@ -5,6 +5,12 @@
   @close="close()"
   custom-class="select"
   >
+    <el-link type="primary" @click="selectall()" v-if="multiple" style="margin-right: 8px">
+      {{ selected.length !== characters.length? $t('selectall') : $t('unselectall')}}
+    </el-link>
+    <el-link type="primary" @click="invert()" v-if="multiple">
+      {{ $t('invert') }}
+    </el-link>
     <div class="content">
       <div
         class="item"
@@ -55,6 +61,24 @@ export default class Select extends Vue {
       }
     }
   }
+
+  selectall () {
+    if (this.selected.length !== characters.length) {
+      this.$emit('selected', [...characters])
+    } else {
+      this.$emit('selected', [])
+    }
+  }
+
+  invert () {
+    let temp = []
+    for (let i in characters) {
+      if (this.selected.indexOf(characters[i]) === -1) {
+        temp.push(characters[i])
+      }
+    }
+    this.$emit('selected', [...temp])
+  }
 }
 </script>
 
@@ -93,6 +117,7 @@ export default class Select extends Vue {
 .item[disabled]::after {
   background-color: rgba(255, 255, 255, 0.6) !important;
   cursor: auto;
+  pointer-events: none;
 }
 
 .item[selected]::after {

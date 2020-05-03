@@ -59,7 +59,7 @@
         <template slot-scope="scope">
           <span v-if="normalBox">
             <span style="display: inline-block" v-for="item in scope.row.box" :key="item.id">
-              <character v-if="only.indexOf(item.id) !== -1" :character="item" />
+              <character v-if="!only.length || only.indexOf(item.id) !== -1" :character="item" />
             </span>
           </span>
           <span
@@ -68,7 +68,7 @@
           >
             <span v-for="item in scope.row.box" :key="item.id">
               <img
-                v-if="only.indexOf(item.id) !== -1"
+                v-if="!only.length || only.indexOf(item.id) !== -1"
                 :src="characterIcon[item.id]"
                 :alt="$t('character.' + item.id)"
                 height="32px" width="32px"
@@ -90,14 +90,19 @@
       :title="$t('order.addfilter')"
       :visible.sync="addFilterVisible"
       width="70%"
-      @closed="filterDialog = { method: 'and', characters: [] }"
+      @closed="filterDialog = { method: 'and', characters: [], invert: false }"
     >
       <div>
         <el-select v-model="filterDialog.method" placeholder="请选择" style="margin-right: 8px;">
           <el-option :label="$t('order.and')" value="and" />
           <el-option :label="$t('order.or')" value="or" />
         </el-select>
-        <el-button @click="selectVisible=true" type="primary">{{ $t('order.select') }}</el-button>
+        <el-button @click="selectVisible=true" type="primary" style="margin-right: 8px;">
+          {{ $t('order.select') }}
+        </el-button>
+        <el-checkbox v-model="filterDialog.invert">
+          {{ $t('invert') }}
+        </el-checkbox>
         <div
           :title="filterDialog.characters.map((val) => { return $t('character.' + val) }).join(' | ')"
           style="margin: 4px 0;"
@@ -153,13 +158,14 @@ export default class Order extends Vue {
   addFilterVisible = false
   normalBox = true
   only: string[] = []
-  filter: { method: string; characters: string[] }[] = []
+  filter: { method: string; characters: string[]; invert: boolean }[] = []
   user: User | {} = {}
   raw: User[] = []
   show: User[] = []
   filterDialog = {
     method: 'and',
-    characters: []
+    characters: [],
+    invert: true
   }
 
   created () {
@@ -214,6 +220,13 @@ export default class Order extends Vue {
         case 'or':
           del = this.filterOr(temp, this.filter[i].characters)
           break
+      }
+      if (this.filter[i].invert) {
+        let invert_del = []
+        for (let j in temp) {
+          if (del.indexOf(j) === -1) invert_del.push(j)
+        }
+        del = invert_del
       }
       for (let j in del) temp.splice(del[j] - parseInt(j), 1)
     }
