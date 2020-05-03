@@ -52,6 +52,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/Http404.vue')
   },
   {
+    path: '/logout',
+    name: 'Logout',
+    component: () => import('@/views/Logout.vue')
+  },
+  {
     path: '*',
     redirect: '/http404'
   }
@@ -72,9 +77,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  } else if (to.path === '/logout') {
-    logout()
-    next('/')
   } else {
     if (to.meta.requireAuth) {
       if (islogin) {
