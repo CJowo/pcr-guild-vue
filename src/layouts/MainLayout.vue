@@ -73,10 +73,35 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: [
         {
+          title: this.$t('app.box'),
+          caption: '',
+          icon: 'inbox',
+          link: '/#/box'
+        },
+        {
           title: this.$t('app.guild'),
           caption: '',
           icon: 'house',
-          link: '#/guild'
+          link: '/#/guild'
+        },
+        {
+          title: this.$t('app.battle'),
+          caption: '',
+          icon: 'gamepad',
+          link: '/#/battle'
+        },
+        {
+          title: this.$t('app.library'),
+          caption: '',
+          icon: 'library_books',
+          link: '/#/library',
+          disabled: true
+        },
+        {
+          title: this.$t('app.admin'),
+          caption: '',
+          icon: 'img:statics/image/icons/admin_panel_settings.png',
+          link: '/#/admin'
         }
       ]
     }

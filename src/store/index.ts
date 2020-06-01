@@ -1,6 +1,7 @@
 import { store } from 'quasar/wrappers'
 import Vuex from 'vuex'
 import user from './user'
+import admin from './admin'
 
 export interface StoreInterface {
   example: unknown;
@@ -11,7 +12,8 @@ export default store(function ({ Vue }) {
 
   const Store = new Vuex.Store<StoreInterface>({
     modules: {
-      user
+      user,
+      admin
     },
 
     // enable strict mode (adds overhead!)

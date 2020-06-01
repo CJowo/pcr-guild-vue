@@ -71,8 +71,8 @@
     </q-card-actions>
 
     <q-card-actions>
-      <q-btn v-if="!edit" style="width: 100%" @click="leave" :label="$t('guild.guildDetailCard.leave')" color="negative" />
-      <q-btn v-if="edit" style="width: 100%" @click="guildDelete" :label="$t('guild.guildDetailCard.delete')" color="negative" />
+      <q-btn v-if="!edit" style="width: 100%" @click="leave" :label="$t('guild.guildCard.leave')" color="negative" />
+      <q-btn v-if="edit" style="width: 100%" @click="guildDelete" :label="$t('guild.guildCard.delete')" color="negative" />
     </q-card-actions>
 
     <q-inner-loading :showing="loading">
@@ -82,15 +82,15 @@
     <q-dialog v-model="promptPassword" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
-          <div class="text-h6">{{ $t('guild.guildDetailCard.password') }}</div>
+          <div class="text-h6">{{ $t('guild.guildCard.password') }}</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="form.password" autofocus :error="errorPassword" :error-message="$t('guild.GuildDetailCard.errorPassword')" />
+          <q-input dense v-model="form.password" autofocus :error="errorPassword" :error-message="$t('guild.guildCard.errorPassword')" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat :label="$t('guild.guildDetailCard.setPassword')" @click="passwordValidation" />
+          <q-btn flat :label="$t('guild.guildCard.setPassword')" @click="passwordValidation" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -128,10 +128,10 @@ export default class GuildDetailCard extends Vue {
 
   get options () {
     return [
-      { label: this.$t('guild.guildDetailCard.joinAuto'), value: 0 },
-      { label: this.$t('guild.guildDetailCard.joinPassword'), value: 1 },
-      { label: this.$t('guild.guildDetailCard.joinValidate'), value: 2 },
-      { label: this.$t('guild.guildDetailCard.joinForbid'), value: 3 }
+      { label: this.$t('guild.guildCard.joinAuto'), value: 0 },
+      { label: this.$t('guild.guildCard.joinPassword'), value: 1 },
+      { label: this.$t('guild.guildCard.joinValidate'), value: 2 },
+      { label: this.$t('guild.guildCard.joinForbid'), value: 3 }
     ]
   }
 

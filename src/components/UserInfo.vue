@@ -1,6 +1,9 @@
 <template>
     <q-card style="width: 250px">
-    <q-card-section class="q-gutter-y-md">
+    <q-card-section v-if="!user.username">
+      {{ $t('user.nologin') }}
+    </q-card-section>
+    <q-card-section class="q-gutter-y-md" v-if="user.username">
       <div class="row items-center q-gutter-sm">
         <q-avatar color="primary" text-color="white" icon="account_circle" size="md" />
         <span class="text-h6">
@@ -62,10 +65,10 @@
       </q-field>
     </q-card-section>
 
-    <q-card-actions align="around">
-      <q-btn flat>{{ $t('userInfo.setPassword') }}</q-btn>
+    <q-card-actions align="around" v-if="user.username">
+      <q-btn flat :disable="true" >{{ $t('user.setPassword') }}</q-btn>
       <router-link to="/logout">
-        <q-btn flat color="negative" >{{ $t('userInfo.logout') }}</q-btn>
+        <q-btn flat color="negative" >{{ $t('user.logout') }}</q-btn>
       </router-link>
     </q-card-actions>
 

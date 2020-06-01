@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <span class="text-h3 center">{{ $t('logout.wait') }}</span>
+    <span class="text-h3 center">{{ $t('user.logoutWait') }}</span>
     <q-inner-loading :showing="true">
         <q-spinner-ios size="50px" color="primary" />
       </q-inner-loading>

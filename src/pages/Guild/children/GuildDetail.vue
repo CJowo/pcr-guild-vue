@@ -7,10 +7,12 @@
     >
       <q-tab name="info" icon="info" :label="$t('guild.guildDetail.info')" />
       <q-tab name="users" icon="group" :label="$t('guild.guildDetail.users')" />
+      <q-tab name="boxes" icon="inbox" :label="$t('guild.guildDetail.boxes')" />
       <q-tab name="applications" icon="event" :label="$t('guild.guildDetail.applications')" v-if="operater"/>
     </q-tabs>
     <GuildDetailInfo v-if="tab==='info'" :auth="auth"/>
     <GuildDetailUsers v-if="tab==='users'" :users="users" :auth="auth" @refresh="load" />
+    <GuildDetailBox v-if="tab==='boxes'" />
     <GuildDetailApplications v-if="tab==='applications'"/>
 
     <q-inner-loading :showing="loading">
@@ -24,12 +26,14 @@ import { Vue, Component } from 'vue-property-decorator'
 import GuildDetailUsers from 'pages/Guild/components/GuildDetailUsers.vue'
 import GuildDetailInfo from 'pages/Guild/components/GuildDetailInfo.vue'
 import GuildDetailApplications from 'pages/Guild/components/GuildDetailApplications.vue'
+import GuildDetailBox from 'pages/Guild/components/GuildDetaiBox.vue'
 
 @Component({
   components: {
     GuildDetailInfo,
     GuildDetailUsers,
-    GuildDetailApplications
+    GuildDetailApplications,
+    GuildDetailBox
   }
 })
 export default class GuildDetail extends Vue {

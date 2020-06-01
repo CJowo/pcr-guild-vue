@@ -3,6 +3,8 @@
     clickable
     tag="a"
     :href="link"
+    :class="{ disabled: disabled }"
+    :style="{ 'pointer-events': disabled? 'none': '' }"
   >
     <q-item-section
       v-if="icon"
@@ -42,6 +44,10 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   }
 }

@@ -27,6 +27,7 @@
           val => !!val || $t('register.usernameRules')
         ]"
         :label="$t('user.username')"
+        :hint="$t('register.usernameHint')"
       />
       <q-input
         filled

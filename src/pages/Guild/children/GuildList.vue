@@ -77,7 +77,7 @@ export default class GuildList extends Vue {
   onLoad (index: any, done: any) {
     this.$axios.get(`guild/list?page=${index}`)
       .then(response => {
-        if (index >= response.data.count) {
+        if (index * 10 >= response.data.count) {
           this.$refs.infiniteScroll.stop()
         }
         this.list = this.list.concat(response.data.data)

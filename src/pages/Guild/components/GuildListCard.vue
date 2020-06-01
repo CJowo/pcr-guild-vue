@@ -23,7 +23,7 @@
         {{ guild.number }}
       </span>
       <q-btn flat :color="color[guild.join]" @click="join">
-        {{ $t('guild.guildListCard.join') }}
+        {{ joinMethods[guild.join] }}
       </q-btn>
     </q-card-actions>
   </q-card>
@@ -47,6 +47,15 @@ export default class GuildListCard extends Vue {
     'primary',
     'negative'
   ]
+
+  get joinMethods () {
+    return [
+      this.$t('guild.guildCard.joinAuto'),
+      this.$t('guild.guildCard.joinPassword'),
+      this.$t('guild.guildCard.joinValidate'),
+      this.$t('guild.guildCard.joinForbid')
+    ]
+  }
 
   join () {
     switch (this.guild.join) {
