@@ -60,7 +60,8 @@ export default class Box extends Vue {
   editVisiable = false
   get user () { return this.$store.state.user.data }
   get disabled () {
-    return this.user.characters.map((item: any) => item.name)
+    if (this.user.characters) return this.user.characters.map((item: any) => item.name)
+    else return []
   }
 
   character = ''

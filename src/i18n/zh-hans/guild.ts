@@ -38,8 +38,19 @@ const guildDetailBox = {
   inverse: '反选'
 }
 
+const guildList = {
+  title: '公会列表',
+  createTip: '创建公会',
+  create: '创建公会',
+  nameRules: '长度1~16',
+  nameHint: '公会名称',
+  createCancel: '取消',
+  createConfirm: '创建'
+}
+
 export default {
   guildDetail,
   guildCard,
-  guildDetailBox
+  guildDetailBox,
+  guildList
 }
