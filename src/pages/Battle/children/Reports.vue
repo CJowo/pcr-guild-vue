@@ -16,7 +16,7 @@
 
      <q-infinite-scroll ref="infiniteScroll" @load="onLoad" :offset="50">
       <div class="q-pa-md row items-start q-gutter-md justify-center justify-sm-start items-start">
-        <Report v-for="(item, index) in reports" :key="index" :report="item" />
+        <Report v-for="(item, index) in reports" :key="index" v-model="reports[index]" :editable="operater" @delete="reports.splice(index, 1)" />
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -25,9 +25,10 @@
       </template>
     </q-infinite-scroll>
 
-    <q-dialog v-model="createDialog" persistent>
+    <q-dialog v-model="createDialog" persistent @hide="refreshForm" >
       <q-card style="width: 300px" @keydown.enter="create">
         <q-card-section class="q-gutter-y-md">
+          <q-select v-if="operater" :options="userOptions" v-model="selectedUser" />
           <q-input v-model.number="form.value" type="number" :label="$t('battle.report.value')" />
           <q-select
             v-model="form.index"
@@ -58,7 +59,7 @@
       </q-card>
     </q-dialog>
 
-    <Today v-model="infoDialog" />
+    <Today v-model="infoDialog" v-if="infoDialog" />
 
     <q-inner-loading :showing="loading">
       <q-spinner-ios size="50px" color="primary" />
@@ -67,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { QInfiniteScroll } from 'quasar'
 import Report from 'pages/Battle/components/Report.vue'
 import Today from 'pages/Battle/components/Today.vue'
@@ -88,7 +89,13 @@ export default class BattleInfo extends Vue {
   infoDialog = false
   title = ''
 
+  selectedUser = {
+    label: this.user.nickname + `(${this.user.username})`,
+    value: this.user.username
+  }
+
   form = {
+    username: '',
     value: 0,
     round: 1,
     index: 1,
@@ -100,9 +107,55 @@ export default class BattleInfo extends Vue {
     desc: ''
   }
 
+  @Watch('selectedUser')
+  onChange (val: any) {
+    this.form.username = val.value
+  }
+
   reports: any = []
 
+  get user () { return this.$store.state.user.data }
+
+  users: any = []
+
+  get operater () {
+    if (this.users.operaters === undefined) return false
+    for (let i in this.users.operaters) {
+      if (this.users.operaters[i].username === this.user.username) return true
+    }
+    return false
+  }
+
+  get userOptions () {
+    let temp: any = []
+    for (let i in this.users.operaters) {
+      temp.push({
+        label: this.users.operaters[i].nickname + `(${this.users.operaters[i].username})`,
+        value: this.users.operaters[i].username
+      })
+    }
+    for (let i in this.users.users) {
+      temp.push({
+        label: this.users.users[i].nickname + `(${this.users.users[i].username})`,
+        value: this.users.users[i].username
+      })
+    }
+    return temp
+  }
+
+  load () {
+    this.loading = true
+    this.$axios.get('guild/users')
+      .then(response => {
+        this.users = response.data
+      })
+      .finally(() => {
+        this.loading = false
+      })
+  }
+
   created () {
+    this.load()
     this.$axios.get('battle/info')
       .then(response => {
         this.title = response.data.title
@@ -132,6 +185,11 @@ export default class BattleInfo extends Vue {
       .finally(() => {
         this.loading = false
       })
+  }
+
+  refreshForm () {
+    this.form.value = 0
+    this.form.desc = ''
   }
 }
 </script>
