@@ -1,7 +1,7 @@
 const report = {
   value: '伤害',
   boss: 'Boss',
-  round: '周目',
+  round: '阶段',
   finish: '出刀日期',
   desc: '备注',
   createTip: '创建报告',

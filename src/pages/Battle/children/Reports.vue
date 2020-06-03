@@ -15,8 +15,13 @@
     </div>
 
      <q-infinite-scroll ref="infiniteScroll" @load="onLoad" :offset="50">
-      <div class="q-pa-md row items-start q-gutter-md justify-center justify-sm-start items-start">
-        <Report v-for="(item, index) in reports" :key="index" v-model="reports[index]" :editable="operater" @delete="reports.splice(index, 1)" />
+      <div>
+        <div v-for="(val, key) in reports" :key="key">
+          <div class="text-h6 text-center">{{ key }}</div>
+          <div class="q-pa-md row items-start q-gutter-md justify-center justify-sm-start items-start">
+            <Report v-for="(item, index) in val" :key="index" v-model="val[index]" :editable="operater" @delete="val.splice(index, 1)" />
+          </div>
+        </div>
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -35,7 +40,7 @@
             :label="$t('battle.report.boss')"
             :options="[1, 2, 3, 4, 5]"
           />
-          <q-input v-model.number="form.round" type="number" :label="$t('battle.report.round')" :rules="[val => val > 0]" />
+          <q-input v-model.number="form.round" type="number" :label="$t('battle.report.round')" :rules="[val => val > 0, val => val < 27]" />
           <q-field :label="$t('battle.report.finish')" v-model.number="form.finish">
             <template v-slot:control>
               <div class="self-center full-width no-outline">
@@ -112,7 +117,7 @@ export default class BattleInfo extends Vue {
     this.form.username = val.value
   }
 
-  reports: any = []
+  reports: any = {}
 
   get user () { return this.$store.state.user.data }
 
@@ -168,7 +173,13 @@ export default class BattleInfo extends Vue {
         if (index * 10 >= response.data.count) {
           this.$refs.infiniteScroll.stop()
         }
-        this.reports = this.reports.concat(response.data.data)
+        for (let i in response.data.data) {
+          let key = response.data.data[i].finish
+          if (this.reports[key] === undefined) {
+            this.$set(this.reports, key, [])
+          }
+          this.reports[key].push(response.data.data[i])
+        }
         done()
       })
   }
@@ -177,9 +188,11 @@ export default class BattleInfo extends Vue {
     this.loading = true
     this.$axios.post('report/create', this.form)
       .then(() => {
-        this.reports = []
+        console.log(123)
+        this.reports = {}
         this.$refs.infiniteScroll.reset()
         this.$refs.infiniteScroll.resume()
+        this.$refs.infiniteScroll.trigger()
         this.createDialog = false
       })
       .finally(() => {

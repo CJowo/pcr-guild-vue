@@ -6,7 +6,7 @@
           {{ report.value }}
         </span>
         <q-chip outline color="primary" style="width: 120px; flex-shrink: 0">
-          <q-avatar outline color="primary" text-color="white">{{ bosses[report.index-1] }}{{ report.round }}</q-avatar>
+          <q-avatar outline color="primary" text-color="white">{{ String.fromCharCode(64 + report.round) }}{{ report.index }}</q-avatar>
           {{ report.finish }}
         </q-chip>
         <q-chip outline color="primary" text-color="white" icon="account_circle" style="cursor: pointer; width: 100px" >
@@ -74,7 +74,6 @@ export default class Report extends Vue {
   @Model('input') report !: any
   @Prop({ default: false }) editable !: boolean
   loading = false
-  bosses = ['A', 'B', 'C', 'D', 'E']
   editDialog = false
 
   form = {

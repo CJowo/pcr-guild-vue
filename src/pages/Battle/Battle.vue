@@ -28,6 +28,8 @@ export default class Battle extends Vue {
     if (val.path.startsWith('/battle')) {
       if (this.$store.state.user.data.guild === null) {
         this.$router.replace('/guild/list').catch(err => err)
+      } else {
+        this.$router.push('/battle/' + this.tab)
       }
     }
   }
