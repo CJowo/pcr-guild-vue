@@ -4,7 +4,7 @@
       <div v-for="(val, key) in reports" :key="key">
         <div class="text-h6 text-center">{{ key }}</div>
         <div class="q-pa-md row items-start q-gutter-md justify-center justify-sm-start items-start">
-          <Report v-for="(item, index) in val" :key="index" v-model="val[index]" :editable="operater" @delete="val.splice(index, 1)" />
+          <Report v-for="(item, index) in val" :key="index" v-model="val[index]" :editable="true" @delete="val.splice(index, 1)" />
         </div>
       </div>
     </div>
