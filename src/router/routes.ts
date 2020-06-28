@@ -33,7 +33,7 @@ const routes: RouteConfig[] = [
         component: () => import('pages/Admin/Admin.vue'),
         children: [
           { path: 'validate', component: () => import('pages/Admin/children/Validate.vue') },
-          { path: 'detail', component: () => import('pages/Admin/children/detail.vue') }
+          { path: 'detail', component: () => import('pages/Admin/children/Detail.vue') }
         ]
       }
     ]
