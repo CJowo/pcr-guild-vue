@@ -23,7 +23,7 @@ axios.interceptors.response.use(
   error => {
     switch (error.response.status) {
       case 401:
-        window.location.href = '#/logout'
+        window.location.href = '/#/logout'
     }
     Notify.create({
       message: `[${error.response.statusText}]${error.response.data}`,
