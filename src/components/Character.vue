@@ -6,7 +6,7 @@
       :class="{dimmed: dimmed, disabled: disabled}"
     />
     <div
-      v-if="size>48"
+      v-if="size>48 && rank>0"
       class="absolute"
       :style="{'margin-top': -size+'px', 'font-size': size/5+'px', 'font-weight': 500}"
       style="text-shadow: #fff 1px 0 0, #fff 0 1px 0, #fff -1px 0 0, #fff 0 -1px 0"
