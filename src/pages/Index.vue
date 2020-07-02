@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <q-img src="statics/image/newyearburst.gif" width="300px"/>
+    <div>首页</div>
   </q-page>
 </template>
 
