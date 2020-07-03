@@ -23,7 +23,7 @@ jobs:
       
     - name: Build Website
       run: |
-        apt-get install -y zip
+        sudo apt-get install -y zip
         npm install
         ./node_modules/.bin/quasar build
         
