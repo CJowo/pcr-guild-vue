@@ -1,0 +1,39 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build Website File
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone Repo
+      uses: actions/checkout@v2
+
+    - name: Prepare Node.js Environment
+      uses: actions/setup-node@v2.1.0
+      
+    - name: Build Website
+      run: |
+        apt-get install -y zip
+        npm install
+        ./node_modules/.bin/quasar build
+        
+    - name: Package Build Files
+      run: |
+        mkdir ./vue
+        cp -rvf ./dist/spa/* ./vue
+        zip vue.zip -r9v vue
+        
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: ./vue.zip 
