@@ -27,13 +27,8 @@ jobs:
         npm install
         ./node_modules/.bin/quasar build
         
-    - name: Package Build Files
-      run: |
-        mkdir ./vue
-        cp -rvf ./dist/spa/* ./vue
-        zip vue.zip -r9v vue
-        
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        path: ./vue.zip 
+        name: vue
+        path: ./dist/spa/*
