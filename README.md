@@ -1,6 +1,6 @@
 # pcr (pcr)
 
-pcr
+![Build](https://github.com/mnixry/pcr-guild-vue/workflows/Build%20Website%20File/badge.svg)
 
 ## Install the dependencies
 ```bash
