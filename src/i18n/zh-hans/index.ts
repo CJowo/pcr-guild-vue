@@ -7,6 +7,7 @@ import register from './register'
 import guild from './guild'
 import battle from './battle'
 import admin from './admin'
+import box from './box'
 
 export default {
   app,
@@ -17,5 +18,6 @@ export default {
   register,
   guild,
   battle,
-  admin
+  admin,
+  box
 }

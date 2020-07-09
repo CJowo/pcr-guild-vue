@@ -1,5 +1,9 @@
 <template>
-  <q-page class="relative q-pa-md">
+  <q-page class="relative q-pa-md q-gutter-y-md">
+    <div class="q-gutter-x-md">
+      <q-btn :label="$t('box.clear')" color="negative" @click="clear" />
+      <q-btn :label="$t('box.image')" @click="ImageDialogShow" />
+    </div>
     <div v-if="user.username" class="row q-gutter-xs items-start">
       <Character
         :name="item.name" :star="item.star" :exclusive="item.exclusive"
@@ -20,7 +24,7 @@
     <q-dialog v-model="editVisiable">
       <q-card>
         <q-card-section>
-          <div class="text-h6">{{ $t('character.'+this.form.name) }}</div>
+          <div class="text-h6">{{ $t('character.'+form.name) }}</div>
         </q-card-section>
 
         <q-card-section>
@@ -46,6 +50,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import Character from 'components/Character.vue'
 import CharacterSelect from 'components/CharacterSelect.vue'
+import BoxImage from 'pages/Box/components/Image.vue'
 
 @Component({
   components: {
@@ -58,6 +63,7 @@ export default class Box extends Vue {
 
   selectVisiable = false
   editVisiable = false
+  boxImageVisiable = false
   get user () { return this.$store.state.user.data }
   get disabled () {
     if (this.user.characters) return this.user.characters.map((item: any) => item.name)
@@ -104,6 +110,31 @@ export default class Box extends Vue {
       .finally(() => {
         this.loading = false
       })
+  }
+
+  clear () {
+    this.$q.dialog({
+      title: this.$t('box.clearConfirm') as string,
+      message: this.$t('box.clearConfirmMessage') as string,
+      cancel: true
+    })
+      .onOk(() => {
+        this.loading = true
+        this.$axios.post('character/clear')
+          .then(() => {
+            return this.$store.dispatch('user/getInfo')
+          })
+          .finally(() => {
+            this.loading = false
+          })
+      })
+  }
+
+  ImageDialogShow () {
+    this.$q.dialog({
+      component: BoxImage,
+      parent: this
+    })
   }
 
   characterDelete () {
