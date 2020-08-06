@@ -57,13 +57,13 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"
 
 function parseDate (datestring) {
-  let [d, t] = datestring.split(" ");
-  let [yy, mm, dd] = d.split("/");
-  let hh = t.split(":")[0];
-  return new Date(yy, mm - 1, dd, hh);
+  let [d, t] = datestring.split(" ")
+  let [yy, mm, dd] = d.split("/")
+  let hh = t.split(":")[0]
+  return new Date(yy, mm - 1, dd, hh)
 }
 
 export default {
@@ -96,26 +96,26 @@ export default {
         .get("https://bird.ioliu.cn/v1?url=https://tools.yobot.win/calender/cn.json")
         .then((res) => {
           for (let i = 0; i < res.data.length; i++) {
-            let campaign = res.data[i];
-            let startTime = parseDate(campaign.start_time);
-            let endTime = parseDate(campaign.end_time);
-            let status = 'accent';
-            let today = new Date();
+            let campaign = res.data[i]
+            let startTime = parseDate(campaign.start_time)
+            let endTime = parseDate(campaign.end_time)
+            let status = 'accent'
+            let today = new Date()
             if (endTime >= today || (today.getTime() - endTime.getTime()) / 86400000 <= 3) {
               if (startTime.getTime() > today.getTime()) {
-                status = 'primary';
+                status = 'primary'
               } else if (endTime.getTime() >= today.getTime()) {
-                status = 'positive';
+                status = 'positive'
               }
               this.events[++this.count] = {
                 name: campaign.name,
                 startTime: campaign.start_time,
                 endTime: campaign.end_time,
                 status: status
-              };
+              }
             }
           }
-        });
+        })
     }
   }
 }
